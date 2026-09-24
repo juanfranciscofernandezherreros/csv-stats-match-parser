@@ -4,11 +4,7 @@
   "name":"StatsMatchValue",
   "fields":[
     {"name":"sourceEventId","type":"string"},
-    {"name":"eventType","type":"string"},
     {"name":"matchId","type":"string"},
-    {"name":"fileName","type":"string"},
-    {"name":"filePath","type":"string"},
-    {"name":"fileType","type":"string"},
     {"name":"date","type":["null","string"],"default":null},
     {"name":"homeName","type":["null","string"],"default":null},
     {"name":"homeImage","type":["null","string"],"default":null},
@@ -27,7 +23,6 @@
     {"name":"secondAway","type":["null","string"],"default":null},
     {"name":"thirdAway","type":["null","string"],"default":null},
     {"name":"fourthAway","type":["null","string"],"default":null},
-    {"name":"extraAway","type":["null","string"],"default":null},
-    {"name":"error","type":["null","string"],"default":null}
+    {"name":"extraAway","type":["null","string"],"default":null}
   ]
 }
