@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.7 - 2026-09-25
+
+- [patch] KAN-80 sustituye los schemas locales FileEvent/StatsMatch por `basketball-event-contracts:1.0.2`.
+- [patch] Elimina generación Avro local y configura CI con lectura autenticada de GitHub Packages.
+- [patch] Mantiene sin cambios el parsing MATCH_SUMMARY y la publicación a Kafka.
+
+
 ## 2.0.6 - 2026-09-25
 
 - [patch] KAN-69 valida MATCH_SUMMARY contra `CSV_ALLOWED_ROOT` antes de abrir el CSV.
