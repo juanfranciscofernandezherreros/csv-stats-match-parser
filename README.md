@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-2.0.5-blue)
+![version](https://img.shields.io/badge/version-2.0.6-blue)
 # csv-stats-match-parser
 
 Parser separado de `csv-stats-match`.
@@ -12,3 +12,12 @@ Consume solo `MATCH_SUMMARY`, deriva `matchId` del nombre `MATCH_SUMMARY_<matchI
 No contiene JPA, Flyway ni PostgreSQL. Si el CSV no es válido, el procesamiento falla y no publica ningún mensaje al topic de salida.
 
 El PR se fusiona automáticamente a `main` cuando pasan los checks y después se elimina la rama origen.
+
+
+## Seguridad de rutas CSV
+
+El fichero recibido desde Kafka solo se procesa si su ruta absoluta, resuelta con `toRealPath()`, permanece dentro de `CSV_ALLOWED_ROOT`. Se rechazan rutas relativas, ficheros inexistentes/no legibles y escapes mediante symlink.
+
+```text
+CSV_ALLOWED_ROOT=/data/csv
+```
