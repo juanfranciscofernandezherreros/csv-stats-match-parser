@@ -1,5 +1,4 @@
-Current version: **2.0.4**
-
+![version](https://img.shields.io/badge/version-2.0.4-blue)
 # csv-stats-match-parser
 
 Parser separado de `csv-stats-match`.
