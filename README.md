@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-2.0.6-blue)
+![version](https://img.shields.io/badge/version-2.0.7-blue)
 # csv-stats-match-parser
 
 Parser separado de `csv-stats-match`.
@@ -21,3 +21,8 @@ El fichero recibido desde Kafka solo se procesa si su ruta absoluta, resuelta co
 ```text
 CSV_ALLOWED_ROOT=/data/csv
 ```
+
+
+## Contratos Avro compartidos
+
+`FileEventKey`, `FileEventValue`, `StatsMatchKey` y `StatsMatchValue` se consumen desde `com.fernandez.basketball:basketball-event-contracts:1.0.2`. Este repositorio ya no mantiene copias locales de esos schemas.
