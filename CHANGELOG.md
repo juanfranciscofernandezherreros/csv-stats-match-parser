@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.6 - 2026-09-25
+
+- [patch] KAN-69 valida MATCH_SUMMARY contra `CSV_ALLOWED_ROOT` antes de abrir el CSV.
+- [patch] Usa rutas reales para bloquear escapes mediante symlink y rechaza rutas relativas o ficheros inexistentes.
+- [patch] Añade tests de seguridad de filesystem.
+
 ## 2.0.5 - 2026-09-25
 
 - [patch] Refuerza AGENTS.md con lectura obligatoria por tarea, autonomía y prohibición absoluta de escrituras directas en main.
