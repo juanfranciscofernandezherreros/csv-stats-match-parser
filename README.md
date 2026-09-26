@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-2.1.0-blue)
+![version](https://img.shields.io/badge/version-2.1.1-blue)
 # csv-stats-match-parser
 
 Parser separado de `csv-stats-match`.
@@ -39,3 +39,8 @@ KAN-106 aplica la política común de KAN-18 al consumidor de `file.ready.match-
 - DLT configurable mediante `KAFKA_MATCH_PARSER_DLT_TOPIC`.
 
 Spring Kafka conserva el contexto del registro original y añade headers de excepción al mensaje publicado en DLT.
+
+
+### Deserialización y DLT
+
+Los deserializadores Avro están envueltos con `ErrorHandlingDeserializer`. Un payload corrupto o incompatible entra en el flujo normal de recuperación. La DLT `file.ready.match-summary.DLT` admite objetos Avro y `byte[]` originales, conserva headers de diagnóstico, deja que Kafka seleccione una partición válida y propaga fallos de publicación.
