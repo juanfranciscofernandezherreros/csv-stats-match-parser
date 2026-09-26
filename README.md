@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-2.0.7-blue)
+![version](https://img.shields.io/badge/version-2.1.0-blue)
 # csv-stats-match-parser
 
 Parser separado de `csv-stats-match`.
@@ -26,3 +26,16 @@ CSV_ALLOWED_ROOT=/data/csv
 ## Contratos Avro compartidos
 
 `FileEventKey`, `FileEventValue`, `StatsMatchKey` y `StatsMatchValue` se consumen desde `com.fernandez.basketball:basketball-event-contracts:1.0.2`. Este repositorio ya no mantiene copias locales de esos schemas.
+
+
+## Estrategia de errores Kafka
+
+KAN-106 aplica la política común de KAN-18 al consumidor de `file.ready.match-summary`.
+
+- errores de ruta, formato o contenido CSV: non-retryable;
+- fallos transitorios de Kafka: retryable;
+- intentos agotados: publicación del registro original en `file.ready.match-summary.DLT`;
+- retries y backoff configurables mediante `KAFKA_RETRY_MAX_ATTEMPTS` y `KAFKA_RETRY_BACKOFF_MS`;
+- DLT configurable mediante `KAFKA_MATCH_PARSER_DLT_TOPIC`.
+
+Spring Kafka conserva el contexto del registro original y añade headers de excepción al mensaje publicado en DLT.

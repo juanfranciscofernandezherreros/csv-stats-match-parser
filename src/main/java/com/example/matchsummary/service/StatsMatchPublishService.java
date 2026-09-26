@@ -2,6 +2,7 @@ package com.example.matchsummary.service;
 
 import com.example.matchsummary.avro.StatsMatchKey;
 import com.example.matchsummary.avro.StatsMatchValue;
+import com.example.matchsummary.error.NonRetryableCsvException;
 import com.example.matchsummary.mapper.StatsMatchMessageMapper;
 import com.example.matchsummary.parser.MatchSummaryCsvParser;
 import com.example.matchsummary.validation.SafeCsvPathValidator;
@@ -33,19 +34,39 @@ public class StatsMatchPublishService {
     }
 
     public void publish(String eventId, String filePath, String fileType) {
-        Path path;
+        final Path path;
         try {
             path = pathValidator.validate(filePath);
         } catch (Exception exception) {
-            throw new IllegalStateException("Unsafe MATCH_SUMMARY CSV path: " + filePath, exception);
+            throw new NonRetryableCsvException("Unsafe MATCH_SUMMARY CSV path: " + filePath, exception);
         }
+
         String fileName = path.getFileName().toString();
         String matchId = fileName.replaceFirst("^MATCH_SUMMARY_", "").replaceFirst("\\.csv$", "");
+
         try {
             var dto = parser.parse(path);
             kafka.send(topic, mapper.key(eventId), mapper.value(eventId, matchId, dto)).join();
         } catch (Exception exception) {
-            throw new IllegalStateException("Unable to parse MATCH_SUMMARY CSV: " + filePath, exception);
+            if (containsKafkaFailure(exception)) {
+                if (exception instanceof RuntimeException runtimeException) {
+                    throw runtimeException;
+                }
+                throw new RuntimeException(exception);
+            }
+            throw new NonRetryableCsvException("Unable to parse MATCH_SUMMARY CSV: " + filePath, exception);
         }
+    }
+
+    private boolean containsKafkaFailure(Throwable error) {
+        Throwable current = error;
+        while (current != null) {
+            if (current instanceof org.springframework.kafka.KafkaException
+                    || current instanceof org.apache.kafka.common.KafkaException) {
+                return true;
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 }
